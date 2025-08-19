@@ -67,10 +67,57 @@ ArrayStatus arrayGet(Array *array, int index, int *out_value) {
   return ARRAY_SUCCESS;
 }
 
-int arrayFind(Array *array, int value, int *index) { return 0; }
+int arrayFind(Array *array, int value, int *index) {
+    if (array == NULL || index == NULL || array->length == 0) {
+        return ARRAY_NULL; 
+    }
+    int left = 0;
+    int right = array->length - 1;
+    while (left <= right) {
+        int mid = left + (right - left) / 2;
+        if (array->data[mid] == value) {
+            *index = mid;
+            return ARRAY_SUCCESS;
+        } else if (array->data[mid] < value) {
+            left = mid + 1;
+        } else {
+            right = mid - 1;
+        }
+    }
+    *index = -1;
+    return ARRAY_NOTFOUND;
+}
 
-ArrayStatus arraySort(Array *array, SortDir sort_dir) { return ARRAY_SUCCESS; }
+ArrayStatus arraySort(Array *array, SortDir sort_dir) {
+  if (array == NULL) {
+    return ARRAY_NULL;
+  }
 
+  int length = array->length;
+  if (length <= 1) {
+    return ARRAY_SUCCESS;
+  }
+
+  for (int i = 1; i < length; i++) {
+    int key = array->data[i];
+    int j = i - 1;
+
+    if (sort_dir == 1) {
+      while (j >= 0 && array->data[j] > key) {
+        array->data[j + 1] = array->data[j];
+        j--;
+      }
+    } else {
+      while (j >= 0 && array->data[j] < key) {
+        array->data[j + 1] = array->data[j];
+        j--;
+      }
+    }
+    array->data[j + 1] = key;
+  }
+
+  return ARRAY_SUCCESS;
+}
 ArrayStatus arrayResize(Array *array, int new_capacity) {
   if (array == NULL) {
     return ARRAY_NULL;
