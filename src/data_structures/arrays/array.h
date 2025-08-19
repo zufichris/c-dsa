@@ -13,7 +13,8 @@ typedef enum {
   ARRAY_OUT_OF_BOUNDS = 2,
   ARRAY_FULL = 3,
   ARRAY_MEMORY = 4,
-  ARRAY_INVALID_CAPACITY = 5
+  ARRAY_INVALID_CAPACITY = 5,
+  ARRAY_NOTFOUND = 6
 } ArrayStatus;
 
 typedef enum { SORT_DESC = -1, SORT_ASC = 1 } SortDir;

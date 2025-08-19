@@ -1,9 +1,10 @@
+#include "../../utils/common.h"
 #include "array.h"
 #include <assert.h>
 #include <stdio.h>
 
 void test_array_create() {
-  printf("=================Create Array Test===================\n");
+  printSeparator("Create Array Tests");
   Array array;
 
   printf("-with invalid capacity\n");
@@ -24,7 +25,7 @@ void test_array_create() {
 }
 
 void test_array_destroy() {
-  printf("=================Destroy Array Test==================\n");
+  printSeparator("Destroy Array Tests");
   Array array;
 
   printf("-destroy null pointer\n");
@@ -38,7 +39,7 @@ void test_array_destroy() {
 }
 
 void test_array_insert() {
-  printf("=================Insert Test=========================\n");
+  printSeparator("Insert Tests");
   Array array;
   assert(arrayCreate(&array, 5) == ARRAY_SUCCESS);
 
@@ -63,7 +64,7 @@ void test_array_insert() {
 }
 
 void test_array_get() {
-  printf("=================Get Test============================\n");
+  printSeparator("Get Tests");
   Array array;
   assert(arrayCreate(&array, 10) == ARRAY_SUCCESS);
 
@@ -100,7 +101,7 @@ void test_array_get() {
 }
 
 void test_array_set() {
-  printf("=================Set Test============================\n");
+  printSeparator("Set Test");
   Array array;
   assert(arrayCreate(&array, 10) == ARRAY_SUCCESS);
 
@@ -136,7 +137,7 @@ void test_array_set() {
 }
 
 void test_array_delete() {
-  printf("=================Delete Test=========================\n");
+  printSeparator("Delete Test");
   Array array;
   assert(arrayCreate(&array, 10) == ARRAY_SUCCESS);
 
@@ -185,22 +186,21 @@ void test_array_delete() {
 }
 
 void test_array_find() {
-  printf("=================Find Test===========================\n");
+  printSeparator("Find Test");
   Array array;
   assert(arrayCreate(&array, 10) == ARRAY_SUCCESS);
 
   int index;
 
   printf("-find in null array\n");
-  assert(arrayFind(NULL, 10, &index) == 0);
+  assert(arrayFind(NULL, 10, &index) == ARRAY_NULL);
 
   printf("-find with null index pointer\n");
-  assert(arrayFind(&array, 10, NULL) == 0);
+  assert(arrayFind(&array, 10, NULL) == ARRAY_NULL);
 
   printf("-find in empty array\n");
-  assert(arrayFind(&array, 10, &index) == 0);
+  assert(arrayFind(&array, 10, &index) == ARRAY_NULL);
 
-  // Insert values: 10, 20, 30, 20, 40
   arrayInsert(&array, 10);
   arrayInsert(&array, 20);
   arrayInsert(&array, 30);
@@ -208,24 +208,24 @@ void test_array_find() {
   arrayInsert(&array, 40);
 
   printf("-find existing values\n");
-  assert(arrayFind(&array, 10, &index) == 1);
+  assert(arrayFind(&array, 10, &index) == ARRAY_SUCCESS);
   assert(index == 0);
-  assert(arrayFind(&array, 20, &index) == 1); // Should find first occurrence
+  assert(arrayFind(&array, 20, &index) == ARRAY_SUCCESS);
   assert(index == 1);
-  assert(arrayFind(&array, 30, &index) == 1);
+  assert(arrayFind(&array, 30, &index) == ARRAY_SUCCESS);
   assert(index == 2);
-  assert(arrayFind(&array, 40, &index) == 1);
+  assert(arrayFind(&array, 40, &index) == ARRAY_SUCCESS);
   assert(index == 4);
 
   printf("-find non-existing value\n");
-  assert(arrayFind(&array, 100, &index) == 0);
+  assert(arrayFind(&array, 100, &index) == ARRAY_NOTFOUND);
 
   arrayDestroy(&array);
   printf("Find tests passed!\n\n");
 }
 
 void test_array_sort() {
-  printf("=================Sort Test===========================\n");
+  printSeparator("Sort Test");
   Array array;
   assert(arrayCreate(&array, 10) == ARRAY_SUCCESS);
 
@@ -275,7 +275,7 @@ void test_array_sort() {
 }
 
 void test_array_resize() {
-  printf("=================Resize Test=========================\n");
+  printSeparator("Resize Test");
   Array array;
   assert(arrayCreate(&array, 5) == ARRAY_SUCCESS);
 
@@ -323,7 +323,7 @@ void test_array_resize() {
 }
 
 void test_edge_cases() {
-  printf("=================Edge Cases Test====================\n");
+  printSeparator("Edge Cases Test");
   Array array;
 
   printf("-single element array operations\n");
@@ -363,22 +363,18 @@ void test_edge_cases() {
 }
 
 int main() {
-  printf("Starting comprehensive array tests...\n\n");
-
   test_array_create();
   test_array_destroy();
   test_array_insert();
   test_array_get();
   test_array_set();
   test_array_delete();
-  //test_array_find();
-  //test_array_sort();
+  test_array_find();
+  test_array_sort();
   test_array_resize();
   test_edge_cases();
 
-  printf("===========================================\n");
-  printf("ALL TESTS PASSED!\n");
-  printf("===========================================\n");
+  printSeparator("ALL TESTS PASSED!\n");
 
   return 0;
 }
